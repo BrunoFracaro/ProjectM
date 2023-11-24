@@ -1,4 +1,4 @@
-### Ethereum lottery
+# Ethereum lottery
 
 ## Smart contract written in Solidty
 
@@ -12,4 +12,6 @@ Integrates with the MetaMask app. All transactions are made with the MetaMask ac
 
 Ethers.js and MetaMask SDK.
 
-## Website in alpha working, will be included in the repo
+## Website in alpha, will be included in the repo
+
+React website with Material UI. Integrates autommatically with MetaMask.
