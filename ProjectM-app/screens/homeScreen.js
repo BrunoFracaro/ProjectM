@@ -9,12 +9,7 @@ const bayc = require('../assets/bayc2.jpg')
 
 const HomeScreen = () => {
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: myPallete.backgroundBlack,
-        paddingTop: 50
-      }}>
+    <ScrollView style={{ flex: 1, backgroundColor: myPallete.backgroundBlack, paddingTop: 50 }}>
       <Text style={{ color: myPallete.mainGreen, fontSize: 28, marginLeft: 18 }}>ProjectM</Text>
       <Text style={{ color: myPallete.mainGreen, fontSize: 20, marginLeft: 20, marginTop: 10 }}>Blockchain backed, 100% transparent lottery</Text>
       <View style={{ marginTop: 14, justifyContent: 'center' }}>
@@ -22,13 +17,8 @@ const HomeScreen = () => {
         <View style={{ alignItems: 'center', justifyContent: 'center', alignSelf: 'center', position: 'absolute' }}>
           <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Total in contract</Text>
           <View style={{ marginTop: 10, backgroundColor: '#bbbbbbaa', width: 300, paddingVertical: 14, borderRadius: 10, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', flexDirection: 'row' }}>
-            <Text style={{ fontSize: 18 }}>15115.00</Text>
-            <FontAwesome5
-              style={{ marginLeft: 10 }}
-              name="ethereum"
-              color={'#000'}
-              size={18}
-            />
+            <Text style={{ fontSize: 18 }}>15.00</Text>
+            <FontAwesome5 style={{ marginLeft: 10 }} name="ethereum" color={'#000'} size={18} />
           </View>
           <Text style={{ fontSize: 16, color: '#eee', fontWeight: '500' }}>O USD</Text>
           <Text style={{ fontSize: 20, color: '#eee', fontWeight: '500', marginTop: 20 }}>Next draw in 6d 10h 24m 54s</Text>
@@ -55,10 +45,22 @@ const HomeScreen = () => {
             <View style={{ width: 14, height: 14, borderRadius: 20, backgroundColor: myPallete.mainGreen }} />
             <View style={{ width: 1, height: 50, backgroundColor: '#fff', marginTop: 10 }} />
           </View>
-          <View>
+          <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 18, color: '#fff', fontWeight: '500', marginLeft: 14 }}>0x101744452287...</Text>
-            <Text style={{ fontSize: 14, color: '#aaa', marginLeft: 14, marginTop: 10 }}>29/11/2023</Text>
+            <Text style={{ fontSize: 14, color: '#aaa', marginLeft: 14, marginTop: 10 }}>26/11/2023</Text>
           </View>
+          <Text style={{ fontSize: 14, color: '#aaa', marginLeft: 14, marginTop: 10 }}>14.25 eth</Text>
+        </View>
+        <View style={{ marginTop: 20, flexDirection: 'row', marginLeft: 10 }} >
+          <View style={{ alignItems: 'center' }} >
+            <View style={{ width: 14, height: 14, borderRadius: 20, backgroundColor: myPallete.mainGreen }} />
+            <View style={{ width: 1, height: 50, backgroundColor: '#fff', marginTop: 10 }} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontSize: 18, color: '#fff', fontWeight: '500', marginLeft: 14 }}>0x101744452287...</Text>
+            <Text style={{ fontSize: 14, color: '#aaa', marginLeft: 14, marginTop: 10 }}>19/11/2023</Text>
+          </View>
+          <Text style={{ fontSize: 14, color: '#aaa', marginLeft: 14, marginTop: 10 }}>10.25 eth</Text>
         </View>
       </View>
       <View style={{ width: 10, height: 100 }} />

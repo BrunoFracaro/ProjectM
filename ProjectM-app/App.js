@@ -1,7 +1,8 @@
 // dependencies
 import { NavigationContainer } from '@react-navigation/native';
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Octicons from '@expo/vector-icons/Octicons';
+import Feather from '@expo/vector-icons/Feather';
 
 // screens
 import NewBetScreen from "./screens/newBetScreen";
@@ -29,8 +30,8 @@ export default () => (
         component={HomeScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name="md-checkmark-circle"
+            <Feather
+              name="home"
               color={'#fff'}
             />
           )
@@ -41,8 +42,8 @@ export default () => (
         component={NewBetScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name="md-checkmark-circle"
+            <Octicons
+              name="number"
               color={'#fff'}
             />
           )
