@@ -14,6 +14,8 @@ const NewBetScreen = () => {
   const [render, setRender] = React.useState(false)
   const [open, setOpen] = React.useState(true)
 
+  const [bets, setBets] = React.useState([])
+
   const selectNumber = (index) => {
     let newList = numbers
 
@@ -32,10 +34,40 @@ const NewBetScreen = () => {
     setRender(!render)
   }
 
+  const placeBet = () => {
+    const newBet = numbers.map((val, index) => {
+      if (val) {
+        return index
+      }
+    })
+
+    const filtered = newBet.filter((val) => val != undefined)
+
+    const newListBets = bets
+
+    newListBets.push(filtered)
+
+    setBets(newListBets)
+
+    const reset = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,]
+    setNumbers(reset)
+    setOpen(true)
+    setRender(!render)
+  }
+
+  const removeBet = (index) => {
+    const newBets = bets
+
+    newBets.splice(index, 1)
+
+    setBets(newBets)
+    setRender(!render)
+  }
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: myPallete.backgroundBlack, paddingTop: 50 }}>
       <Text style={{ color: myPallete.mainGreen, fontSize: 28, marginLeft: 18 }}>New Bet</Text>
-      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 30, width: '95%', marginTop: 14, alignSelf: 'center' }}>
+      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center' }}>
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }} >
           <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Total in contract:</Text>
           <View>
@@ -48,7 +80,7 @@ const NewBetScreen = () => {
           <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>6d 10h 24m 54s</Text>
         </View>
       </View>
-      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 30, width: '95%', marginTop: 14, alignSelf: 'center' }}>
+      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center' }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'center', width: '100%' }}>
           <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Select 6 numbers</Text>
           <TouchableOpacity style={{ width: 50, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7 }}>
@@ -79,10 +111,35 @@ const NewBetScreen = () => {
           ))}
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignSelf: 'center', width: '100%', marginTop: 20 }}>
-          <TouchableOpacity style={{ width: 100, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7 }}>
-            <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>Add bet</Text>
-          </TouchableOpacity>
+          {open ? (
+            <TouchableOpacity style={{ width: 100, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: '#aaa', borderWidth: 0.7 }}>
+              <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>Add bet</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => placeBet()} style={{ width: 100, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7 }}>
+              <Text style={{ fontSize: 20, color: myPallete.mainGreen, fontWeight: '500' }}>Add bet</Text>
+            </TouchableOpacity>
+          )}
         </View>
+      </View>
+      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center' }}>
+        <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Bets</Text>
+        {bets.length > 0 ? (
+          <>
+            {bets.map((val, index) => (
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, marginLeft: 14 }}>
+                <FontAwesome name="heart" color={myPallete.mainGreen} size={18} />
+                <Text style={{ fontSize: 16, color: '#aaa', fontWeight: '500' }}>{val[0]}, {val[1]}, {val[2]}, {val[3]}, {val[4]}, {val[5]}, </Text>
+                <Text style={{ fontSize: 16, color: '#aaa', fontWeight: '500' }}>0.002</Text>
+                <FontAwesome onPress={(index) => removeBet(index)} name="trash" color={myPallete.deleteRed} size={18} />
+              </View>
+            ))}
+          </>
+        ) : (
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>No bets yet</Text>          
+          </View>
+        )}
       </View>
       <View style={{ width: 10, height: 100 }} />
     </ScrollView>

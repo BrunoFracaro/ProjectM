@@ -13,7 +13,7 @@ const HomeScreen = () => {
       <Text style={{ color: myPallete.mainGreen, fontSize: 28, marginLeft: 18 }}>ProjectM</Text>
       <Text style={{ color: myPallete.mainGreen, fontSize: 20, marginLeft: 20, marginTop: 10 }}>Blockchain backed, 100% transparent lottery</Text>
       <View style={{ marginTop: 14, justifyContent: 'center' }}>
-        <Image resizeMode='contain' source={ether} style={{ width: '95%', height: 300, alignSelf: 'center', borderRadius: 30, borderColor: myPallete.mainGreen, borderWidth: 0.7 }} />
+        <Image resizeMode='contain' source={ether} style={{ width: '95%', height: 300, alignSelf: 'center', borderRadius: 20, borderColor: myPallete.mainGreen, borderWidth: 0.7 }} />
         <View style={{ alignItems: 'center', justifyContent: 'center', alignSelf: 'center', position: 'absolute' }}>
           <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Total in contract</Text>
           <View style={{ marginTop: 10, backgroundColor: '#bbbbbbaa', width: 300, paddingVertical: 14, borderRadius: 10, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', flexDirection: 'row' }}>
@@ -25,20 +25,20 @@ const HomeScreen = () => {
         </View>
       </View>
       <View style={{ marginTop: 14, justifyContent: 'center' }}>
-        <Image resizeMode='contain' source={bayc} style={{ width: '95%', height: 200, alignSelf: 'center', borderRadius: 30, borderColor: '#f59042', borderWidth: 0.7 }} />
+        <Image resizeMode='contain' source={bayc} style={{ width: '95%', height: 200, alignSelf: 'center', borderRadius: 20, borderColor: myPallete.mainOrange, borderWidth: 0.7 }} />
         <View style={{ alignItems: 'center', justifyContent: 'center', alignSelf: 'center', position: 'absolute' }}>
           <View style={{ marginTop: 10, backgroundColor: '#bbbbbbaa', width: 300, paddingVertical: 14, borderRadius: 10, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', flexDirection: 'row' }}>
             <Text style={{ fontSize: 18 }}>NFT draws comming soon...</Text>
           </View>
         </View>
       </View>
-      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 30, width: '95%', marginTop: 14, alignSelf: 'center' }}>
+      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center' }}>
         <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Need some help?</Text>
         <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500', marginLeft: 8, marginTop: 10 }}>In ProjectM you can place your bets throught your smartphone with the app, or through the website with one of the supported bowsers.</Text>
         <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500', marginLeft: 8, marginTop: 10 }}>The draw occours every Sunday 11:55 PM ET, and the winner recieve the prize automatically in your Metamask account.</Text>
         <Text style={{ fontSize: 20, color: '#fff', fontWeight: '500', marginLeft: 8, marginTop: 10 }}>Open the "Help" tab to get instructions on how to place your bets</Text>
       </View>
-      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 30, width: '95%', marginTop: 14, alignSelf: 'center' }}>
+      <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center' }}>
         <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Previous Winners</Text>
         <View style={{ marginTop: 20, flexDirection: 'row', marginLeft: 10 }} >
           <View style={{ alignItems: 'center' }} >
