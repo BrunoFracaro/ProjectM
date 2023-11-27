@@ -34,7 +34,7 @@ const NewBetScreen = () => {
     setRender(!render)
   }
 
-  const placeBet = () => {
+  const addBet = () => {
     const newBet = numbers.map((val, index) => {
       if (val) {
         return index
@@ -116,7 +116,7 @@ const NewBetScreen = () => {
               <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>Add bet</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => placeBet()} style={{ width: 100, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7 }}>
+            <TouchableOpacity onPress={() => addBet()} style={{ width: 100, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7 }}>
               <Text style={{ fontSize: 20, color: myPallete.mainGreen, fontWeight: '500' }}>Add bet</Text>
             </TouchableOpacity>
           )}
@@ -136,9 +136,21 @@ const NewBetScreen = () => {
             ))}
           </>
         ) : (
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>No bets yet</Text>          
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>No bets yet</Text>
           </View>
+        )}
+      </View>
+      <View style={{ flexDirection: 'row', marginTop: 14, alignSelf: 'center', width: '95%', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>Total cost eth: 0.00{bets.length * 2} eth</Text>
+        {bets.length > 0 ? (
+          <TouchableOpacity onPress={() => placeBet()} style={{ width: 120, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: myPallete.mainGreen, marginLeft: 10 }}>
+            <Text style={{ fontSize: 20, color: '#fff', fontWeight: '500' }}>Place Bets</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={{ width: 120, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: '#555', marginLeft: 10 }}>
+            <Text style={{ fontSize: 20, color: '#888', fontWeight: '500' }}>Place Bets</Text>
+          </TouchableOpacity>
         )}
       </View>
       <View style={{ width: 10, height: 100 }} />
