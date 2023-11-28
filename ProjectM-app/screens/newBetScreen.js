@@ -4,7 +4,6 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import { myPallete } from '../components/colorPallete';
 
-
 const NewBetScreen = () => {
 
   const [numbers, setNumbers] = React.useState([
@@ -64,6 +63,11 @@ const NewBetScreen = () => {
     setRender(!render)
   }
 
+  const placeBet = () => {
+    setBets([])
+    setRender(!render)
+  }
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: myPallete.backgroundBlack, paddingTop: 50 }}>
       <Text style={{ color: myPallete.mainGreen, fontSize: 28, marginLeft: 18 }}>New Bet</Text>
@@ -91,17 +95,17 @@ const NewBetScreen = () => {
           {numbers.map((val, index) => (
             <>
               {val ? (
-                <TouchableOpacity onPress={() => selectNumber(index)} style={{ backgroundColor: myPallete.mainGreen, width: 50, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7, marginHorizontal: 5, marginVertical: 5 }}>
+                <TouchableOpacity key={index} onPress={() => selectNumber(index)} style={{ backgroundColor: myPallete.mainGreen, width: 50, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7, marginHorizontal: 5, marginVertical: 5 }}>
                   <Text style={{ fontSize: 20, color: '#fff', fontWeight: '500' }}>{index + 1}</Text>
                 </TouchableOpacity>
               ) : (
                 <>
                   {open ? (
-                    <TouchableOpacity onPress={() => selectNumber(index)} style={{ width: 50, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7, marginHorizontal: 5, marginVertical: 5 }}>
+                    <TouchableOpacity key={index} onPress={() => selectNumber(index)} style={{ width: 50, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: myPallete.mainGreen, borderWidth: 0.7, marginHorizontal: 5, marginVertical: 5 }}>
                       <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>{index + 1}</Text>
                     </TouchableOpacity>
                   ) : (
-                    <TouchableOpacity style={{ width: 50, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: '#aaa', borderWidth: 0.7, marginHorizontal: 5, marginVertical: 5 }}>
+                    <TouchableOpacity key={index} style={{ width: 50, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderColor: '#aaa', borderWidth: 0.7, marginHorizontal: 5, marginVertical: 5 }}>
                       <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>{index + 1}</Text>
                     </TouchableOpacity>
                   )}
@@ -127,7 +131,7 @@ const NewBetScreen = () => {
         {bets.length > 0 ? (
           <>
             {bets.map((val, index) => (
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, marginLeft: 14 }}>
+              <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, marginLeft: 14 }}>
                 <FontAwesome name="heart" color={myPallete.mainGreen} size={18} />
                 <Text style={{ fontSize: 16, color: '#aaa', fontWeight: '500' }}>{val[0]}, {val[1]}, {val[2]}, {val[3]}, {val[4]}, {val[5]}, </Text>
                 <Text style={{ fontSize: 16, color: '#aaa', fontWeight: '500' }}>0.002</Text>

@@ -3,10 +3,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import Octicons from '@expo/vector-icons/Octicons';
 import Feather from '@expo/vector-icons/Feather';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 // screens
 import NewBetScreen from "./screens/newBetScreen";
 import HomeScreen from "./screens/homeScreen";
+import ProfileScreen from './screens/profileScreen';
 
 const Tabs = AnimatedTabBarNavigator();
 
@@ -44,6 +46,18 @@ export default () => (
           tabBarIcon: ({ focused, color, size }) => (
             <Octicons
               name="number"
+              color={'#fff'}
+            />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name="person-circle-outline"
               color={'#fff'}
             />
           )
