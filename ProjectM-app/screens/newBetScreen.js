@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Modal, ActivityIndicator } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import { myPallete } from '../components/colorPallete';
@@ -9,6 +9,8 @@ const NewBetScreen = () => {
   const [numbers, setNumbers] = React.useState([
     false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
   ])
+
+  const [modal, setModal] = React.useState(false)
 
   const [render, setRender] = React.useState(false)
   const [open, setOpen] = React.useState(true)
@@ -64,12 +66,27 @@ const NewBetScreen = () => {
   }
 
   const placeBet = () => {
+    setModal(true)
+  }
+
+  const closeModal = () => {
     setBets([])
+    setModal(false)
     setRender(!render)
   }
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: myPallete.backgroundBlack, paddingTop: 50 }}>
+      <Modal animationType="slide" transparent={true} visible={modal}>
+        <View style={{flex: 1, backgroundColor: '#000000aa', justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ height: 200, backgroundColor: myPallete.lightGreen, borderRadius: 20, width: '80%', marginTop: 14, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator size="large" color="#000000"/>
+            <TouchableOpacity onPress={() => closeModal()}>
+              <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20 }}>Waiting for approval</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <Text style={{ color: myPallete.mainGreen, fontSize: 28, marginLeft: 18 }}>New Bet</Text>
       <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center' }}>
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }} >
