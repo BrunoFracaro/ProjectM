@@ -1,16 +1,28 @@
 import React from 'react';
 import { Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
+// import "react-native-get-random-values"
+// import "@ethersproject/shims"
+// import { ethers } from "ethers";
 
 import { myPallete } from '../components/colorPallete';
+import { ethereum } from '../web3/metamask';
 
 const meta = require('../assets/Metamask-icon.png')
 
 const ProfileScreen = () => {
 
   const [user, setUser] = React.useState()
+  const [balance, setBalance] = React.useState()
 
-  const connect = () => {
-    setUser('0xDC21108A4Fde29eCCd27dD05eDbA5c6B9e8Bb598')
+  const connect = async() => {
+    
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    setUser(accounts[0])
+
+    // const provider = new ethers.providers.Web3Provider(ethereum);
+    // const balance = await provider.getBalance(ethereum.selectedAddress);
+    // const balanceInETH = ethers.utils.formatEther(balance);
+    // setBalance(balanceInETH)
   }
 
   return (
@@ -21,7 +33,7 @@ const ProfileScreen = () => {
         {user ? (
           <>
             <Text style={{ fontSize: 14, color: '#ffffff', fontWeight: '500', marginTop: 10 }}>{user}</Text>
-            <Text style={{ fontSize: 14, color: '#ffffff', fontWeight: '500', marginTop: 10 }}>154221 eth</Text>
+            <Text style={{ fontSize: 14, color: '#ffffff', fontWeight: '500', marginTop: 10 }}>{balance} eth</Text>
           </>
         ): (
           <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500', marginTop: 10 }}>Connect to you MetaMask account</Text>
