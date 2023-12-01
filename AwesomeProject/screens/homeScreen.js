@@ -1,13 +1,107 @@
 import React from 'react';
 import { Text, View, Image, ScrollView } from 'react-native';
 
+import '@ethersproject/shims';
+import { ethers } from 'ethers';
+
 import { myPallete } from '../components/colorPallete';
 
 const ether = require('../assets/ether2.jpg')
 const ethereum = require('../assets/ethereum.png')
 const bayc = require('../assets/bayc2.jpg')
 
+// 0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a
+
+function useInterval(callback, delay) {
+  const savedCallback = React.useRef();
+
+  // Remember the latest callback.
+  React.useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  React.useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      const id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
+function nextDay(x) {
+  const now = new Date();
+  now.setDate(now.getDate() + (x + (7 - now.getDay())) % 7);
+  return now;
+}
+
 const HomeScreen = () => {
+
+  const [balance, setBalance] = React.useState('')
+  const [currency, setCurrency] = React.useState(0)
+  const [clock, setClock] = React.useState('')
+
+  React.useEffect(() => {
+
+    const getBalance = async () => {
+
+      const provider = new ethers.JsonRpcProvider(
+        process.env.GOERLI_URL,
+      );
+
+      console.log({ provider });
+
+      const balance = await provider.getBalance(
+        '0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a',
+      );
+
+      console.log({ balance });
+
+      const balanceInETH = ethers.formatEther(balance);
+
+      setBalance( balanceInETH );
+    }
+
+    getBalance()
+    arrangeCurrency()
+  }, [])
+
+  useInterval(() => {
+    arrangeClock()
+  }, 1000);
+
+  const arrangeCurrency = () => {
+    fetch('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR')
+      .then((response) =>response.json())
+      .then((responseJson) =>{
+        console.log('responseJson', responseJson);
+        setCurrency(responseJson.USD)
+      })
+  }
+
+  const arrangeClock = () => {
+    const now = new Date()
+    const sunday = nextDay(7)
+    sunday.setHours(23)
+    sunday.setMinutes(59)
+    sunday.setSeconds(59)
+    const diffMs = (sunday - now) / 1000
+    const days = Math.floor(diffMs / 86400)
+    const hours = Math.floor((diffMs % 86400) / 3600)
+    const minutes = Math.round(((diffMs % 86400) % 3600) / 60)
+    const seconds = Math.round(((diffMs % 86400) % 3600) % 60)
+    if (seconds > 29) {
+      const newClock = { d: days, h: hours, m: (minutes - 1), s: seconds }
+      setClock(newClock)
+    } else {
+      const newClock = { d: days, h: hours, m: minutes, s: seconds }
+      setClock(newClock)
+    }
+  }
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: myPallete.backgroundBlack, paddingTop: 50 }}>
       <Text style={{ color: myPallete.mainGreen, fontSize: 28, marginLeft: 18 }}>ProjectM</Text>
@@ -17,12 +111,12 @@ const HomeScreen = () => {
         <View style={{ alignItems: 'center', justifyContent: 'center', alignSelf: 'center', position: 'absolute' }}>
           <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Total in contract</Text>
           <View style={{ marginTop: 10, backgroundColor: '#bbbbbbaa', width: 300, paddingVertical: 14, borderRadius: 10, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', flexDirection: 'row' }}>
-            <Text style={{ fontSize: 18 }}>15.00</Text>
+            <Text style={{ fontSize: 18 }}>{Math.round(balance * 10000) / 10000}</Text>
             {/* <FontAwesome5 style={{ marginLeft: 10 }} name="ethereum" color={'#000'} size={18} /> */}
             <Image resizeMode='contain' source={ethereum} style={{ width: 20, height: 20 }} />
           </View>
-          <Text style={{ fontSize: 16, color: '#eee', fontWeight: '500' }}>O USD</Text>
-          <Text style={{ fontSize: 20, color: '#eee', fontWeight: '500', marginTop: 20 }}>Next draw in 6d 10h 24m 54s</Text>
+          <Text style={{ fontSize: 16, color: '#eee', fontWeight: '500' }}>{Math.round(balance*currency*100)/100} USD</Text>
+          <Text style={{ fontSize: 20, color: '#eee', fontWeight: '500', marginTop: 20 }}>Next draw in {clock.d}d, {clock.h}h, {clock.m}m, {clock.s}s</Text>
         </View>
       </View>
       <View style={{ marginTop: 14, justifyContent: 'center' }}>

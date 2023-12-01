@@ -1,10 +1,43 @@
 import React from 'react';
 import { Text, View, ScrollView, TouchableOpacity, Modal, ActivityIndicator, Image } from 'react-native';
 
+import '@ethersproject/shims';
+import { Network, ethers } from 'ethers';
+
+import MetamaskContext from '../context/metamask';
+
+const abi = require('../contract/Lottery.json')
+
 import { myPallete } from '../components/colorPallete';
 
 const heart = require('../assets/heartGreen.png')
 const trash = require('../assets/trash.png')
+
+function useInterval(callback, delay) {
+  const savedCallback = React.useRef();
+
+  // Remember the latest callback.
+  React.useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  React.useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      const id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
+function nextDay(x) {
+  const now = new Date();
+  now.setDate(now.getDate() + (x + (7 - now.getDay())) % 7);
+  return now;
+}
 
 const NewBetScreen = () => {
 
@@ -18,6 +51,71 @@ const NewBetScreen = () => {
   const [open, setOpen] = React.useState(true)
 
   const [bets, setBets] = React.useState([])
+
+  const [balance, setBalance] = React.useState('')
+  const [currency, setCurrency] = React.useState(0)
+  const [clock, setClock] = React.useState('')
+
+  const [metamaskCxt, setMetamaskCxt] = React.useContext(MetamaskContext);
+
+
+  React.useEffect(() => {
+
+    const getBalance = async () => {
+
+      const provider = new ethers.JsonRpcProvider(
+        process.env.GOERLI_URL,
+      );
+
+      console.log({ provider });
+
+      const balance = await provider.getBalance(
+        '0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a',
+      );
+
+      console.log({ balance });
+
+      const balanceInETH = ethers.formatEther(balance);
+
+      setBalance( balanceInETH );
+    }
+
+    getBalance()
+    arrangeCurrency()
+  }, [])
+
+  useInterval(() => {
+    arrangeClock()
+  }, 1000);
+
+  const arrangeCurrency = () => {
+    fetch('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR')
+      .then((response) =>response.json())
+      .then((responseJson) =>{
+        console.log('responseJson', responseJson);
+        setCurrency(responseJson.USD)
+      })
+  }
+
+  const arrangeClock = () => {
+    const now = new Date()
+    const sunday = nextDay(7)
+    sunday.setHours(23)
+    sunday.setMinutes(59)
+    sunday.setSeconds(59)
+    const diffMs = (sunday - now) / 1000
+    const days = Math.floor(diffMs / 86400)
+    const hours = Math.floor((diffMs % 86400) / 3600)
+    const minutes = Math.round(((diffMs % 86400) % 3600) / 60)
+    const seconds = Math.round(((diffMs % 86400) % 3600) % 60)
+    if (seconds > 29) {
+      const newClock = { d: days, h: hours, m: (minutes - 1), s: seconds }
+      setClock(newClock)
+    } else {
+      const newClock = { d: days, h: hours, m: minutes, s: seconds }
+      setClock(newClock)
+    }
+  }
 
   const selectNumber = (index) => {
     let newList = numbers
@@ -67,8 +165,27 @@ const NewBetScreen = () => {
     setRender(!render)
   }
 
-  const placeBet = () => {
-    setModal(true)
+  const placeBet = async() => {
+
+    console.log({metamaskCxt})
+
+    // const network = await metamaskCxt.provider.getNetwork()
+    // console.log({network})
+
+    const signer = await metamaskCxt.provider.getSigner();
+    console.log({signer})
+
+    const contract = new ethers.Contract("0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a", abi.abi, signer)
+    console.log({contract})
+
+    try {
+      const lastTimeStamp = await contract.lastTimeStamp()
+      console.log({lastTimeStamp})      
+    } catch (error) {
+      console.log({error})
+    }
+
+    // setModal(true)
   }
 
   const closeModal = () => {
@@ -83,9 +200,7 @@ const NewBetScreen = () => {
         <View style={{flex: 1, backgroundColor: '#000000aa', justifyContent: 'center', alignItems: 'center'}}>
           <View style={{ height: 200, backgroundColor: myPallete.lightGreen, borderRadius: 20, width: '80%', marginTop: 14, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
             <ActivityIndicator size="large" color="#000000"/>
-            <TouchableOpacity onPress={() => closeModal()}>
-              <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20 }}>Waiting for approval</Text>
-            </TouchableOpacity>
+            <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20 }}>Waiting for approval</Text>
           </View>
         </View>
       </Modal>
@@ -94,13 +209,13 @@ const NewBetScreen = () => {
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }} >
           <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Total in contract:</Text>
           <View>
-            <Text style={{ fontSize: 20, color: '#fff', fontWeight: '500' }}>15.1 eth</Text>
-            <Text style={{ fontSize: 16, color: '#aaa', fontWeight: '500' }}>1478.00 USD</Text>
+            <Text style={{ fontSize: 20, color: '#fff', fontWeight: '500' }}>{Math.round(balance * 10000) / 10000} eth</Text>
+            <Text style={{ fontSize: 16, color: '#aaa', fontWeight: '500' }}>{Math.round(balance*currency*100)/100} USD</Text>
           </View>
         </View>
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', marginTop: 14 }} >
           <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>Next drawn in:</Text>
-          <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>6d 10h 24m 54s</Text>
+          <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>{clock.d}d, {clock.h}h, {clock.m}m, {clock.s}s</Text>
         </View>
       </View>
       <View style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center' }}>

@@ -70,7 +70,7 @@ const ProfileScreen = () => {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: myPallete.backgroundBlack, paddingTop: 50 }}>
       <Text style={{ color: myPallete.mainGreen, fontSize: 28, marginLeft: 18 }}>Profile</Text>
-      <TouchableOpacity disabled={metamaskCxt.address} onPress={() => checkConection()} style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', borderColor: metamaskCxt.address ? myPallete.mainGreen : myPallete.mainOrange, borderWidth: 0.7 }}>
+      <TouchableOpacity onPress={() => checkConection()} style={{ padding: 14, backgroundColor: '#373737', borderRadius: 20, width: '95%', marginTop: 14, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', borderColor: metamaskCxt.address ? myPallete.mainGreen : myPallete.mainOrange, borderWidth: 0.7 }}>
         <Image resizeMode='contain' source={meta} style={{ width: 80, height: 80, borderRadius: 50 }} />
         {metamaskCxt.address ? (
           <>
