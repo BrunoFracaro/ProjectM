@@ -17,7 +17,7 @@ const ProfileScreen = () => {
 
   const [metamaskCxt, setMetamaskCxt] = React.useContext(MetamaskContext);
   const [render, setRender] = React.useState(false)
-  const [loading, setLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(false)
 
   const checkConection = async () => {
     if (!metamaskCxt.eth) {

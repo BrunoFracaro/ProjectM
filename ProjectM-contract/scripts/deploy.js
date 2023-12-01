@@ -5,7 +5,7 @@ async function main() {
 
   const url = process.env.GOERLI_URL;
 
-  let artifacts = await hre.artifacts.readArtifact("Intermediary");
+  let artifacts = await hre.artifacts.readArtifact("Lottery");
 
   const provider = new ethers.providers.JsonRpcProvider(url);
 
@@ -13,14 +13,14 @@ async function main() {
 
   let wallet = new ethers.Wallet(privateKey, provider);
 
-  // Create an instance of a Intermediary Factory
+  // Create an instance of a Lottery Factory
   let factory = new ethers.ContractFactory(artifacts.abi, artifacts.bytecode, wallet);
 
-  let intermediary = await factory.deploy();
+  let lottery = await factory.deploy();
 
-  console.log("Intermediary address:", intermediary.address);
+  console.log("Lottery address:", lottery.address);
 
-  await intermediary.deployed();
+  await lottery.deployed();
 }
 
 main()
