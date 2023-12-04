@@ -2,7 +2,7 @@
 
 ## Smart contract written in Solidty
 
-Currently in Goerli Network.
+Currently in Goerli Network. Address: 0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a
 
 Using Alchemy and Hardhat to deploy the contract. Using ChainLink random number generator to get the lottery numbers in true verifiable randomness.
 
