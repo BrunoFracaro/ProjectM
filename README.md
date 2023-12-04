@@ -18,15 +18,20 @@ It is currently not possible to use the ethers package with Expo, so the project
 
 Connect to MetaMask
 
-<img src="https://i.imgur.com/yizU9yC.gif" width="300"/>
+<img src="https://i.imgur.com/yizU9yC.gif" width="600"/>
 
 And sign a transaction
 
-<img src="https://i.imgur.com/TXGqRmu.gif" width="300"/>
+<img src="https://i.imgur.com/TXGqRmu.gif" width="600"/>
 
 ## Website in alpha, will be included in the repo
 
-React website with Material UI. Integrates with MetaMask.
+React website with Material UI. Integrates with any browser wallet.
 
 <img src="https://i.imgur.com/opBpPVD.png" width="600"/>
+
+
+
+Place bets, see the previous draws
+
 <img src="https://i.imgur.com/OR0aEky.png" width="600"/>
