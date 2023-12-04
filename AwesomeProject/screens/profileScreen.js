@@ -11,6 +11,8 @@ import { ethers } from 'ethers';
 
 import { myPallete } from '../components/colorPallete';
 
+const abi = require('../contract/Lottery.json')
+
 const meta = require('../assets/Metamask-icon.png')
 
 const ProfileScreen = () => {
@@ -53,13 +55,23 @@ const ProfileScreen = () => {
       ethereum.selectedAddress
     );
 
+    const signer = await provider.getSigner();
+    console.log({signer})
+
+    const contract = new ethers.Contract("0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a", abi.abi, signer)
+    console.log({contract})
+
+    const lastTimeStamp = await contract.totalInContract()
+    console.log({lastTimeStamp})
+
     const balanceInETH = ethers.formatEther(balance);
 
     const newContext = {
       eth: ethereum,
       address: accounts[0],
       provider: provider,
-      balance: balanceInETH
+      balance: balanceInETH,
+      contract: contract
     }
 
     setMetamaskCxt(newContext);

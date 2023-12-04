@@ -49,7 +49,7 @@ const HomeScreen = () => {
     const getBalance = async () => {
 
       const provider = new ethers.JsonRpcProvider(
-        process.env.GOERLI_URL,
+        'https://eth-goerli.g.alchemy.com/v2/fimlv4n0QGOOIbJKbIqTz6y-Pa4wIgIt',
       );
 
       console.log({ provider });
