@@ -15,8 +15,12 @@ Ethers.js and MetaMask SDK.
 It is currently not possible to use the ethers package with Expo, so the project must be native from the start (can't use expo managed). As the crypto package is now native to the browsers, the npm crypto package has been deprecated, so the metamask SDK must be updated inside node_modules. Follow the path node_modules/@metamask/sdk/dist/react-native/metamask-sdk.js. In the first line of the file change the import from "crypto" to "react-native-crypto". After doing this Ethers should work just fine, both in development and production.
 
 <img src="https://i.imgur.com/9TeMGLg.jpg" width="300"/>
-<img src="https://i.imgur.com/Yw8f8ub.mp4" width="300"/>
-<img src="https://i.imgur.com/Yw8f8ub.mp4" width="300"/>
+
+Connect to MetaMask
+<img src="https://i.imgur.com/yizU9yC.gifv" width="300"/>
+
+And sign a transaction
+<img src="https://i.imgur.com/TXGqRmu.gifv" width="300"/>
 
 ## Website in alpha, will be included in the repo
 
