@@ -16,6 +16,8 @@ It is currently not possible to use the ethers package with Expo, so the project
 
 ![imageapp](https://i.imgur.com/9TeMGLg.jpg)
 
+<img src="https://i.imgur.com/9TeMGLg.jpg" width="300"/>
+
 ## Website in alpha, will be included in the repo
 
 React website with Material UI. Integrates autommatically with MetaMask.
