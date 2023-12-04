@@ -269,7 +269,7 @@ const NewBetScreen = () => {
             <Image resizeMode='contain' source={meta} style={{ width: 80, height: 80, borderRadius: 50 }} />
             {connected ? (
               <>
-                <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Addres: {address}</Text>
+                <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Address: {address}</Text>
                 <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Balance: {userbalance}</Text>
                 <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 40, textAlign: 'center' }}>You will be redirected to approve the transaction</Text>
               </>
