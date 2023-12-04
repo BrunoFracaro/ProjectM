@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, Image, ScrollView } from 'react-native';
+import {GOERLI_URL} from "react-native-dotenv"
 
 import '@ethersproject/shims';
 import { ethers } from 'ethers';
@@ -10,17 +11,14 @@ const ether = require('../assets/ether2.jpg')
 const ethereum = require('../assets/ethereum.png')
 const bayc = require('../assets/bayc2.jpg')
 
-// 0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a
 
 function useInterval(callback, delay) {
   const savedCallback = React.useRef();
 
-  // Remember the latest callback.
   React.useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
 
-  // Set up the interval.
   React.useEffect(() => {
     function tick() {
       savedCallback.current();
@@ -49,7 +47,7 @@ const HomeScreen = () => {
     const getBalance = async () => {
 
       const provider = new ethers.JsonRpcProvider(
-        'https://eth-goerli.g.alchemy.com/v2/fimlv4n0QGOOIbJKbIqTz6y-Pa4wIgIt',
+        GOERLI_URL,
       );
 
       console.log({ provider });
@@ -112,7 +110,6 @@ const HomeScreen = () => {
           <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: '500' }}>Total in contract</Text>
           <View style={{ marginTop: 10, backgroundColor: '#bbbbbbaa', width: 300, paddingVertical: 14, borderRadius: 10, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', flexDirection: 'row' }}>
             <Text style={{ fontSize: 18 }}>{Math.round(balance * 10000) / 10000}</Text>
-            {/* <FontAwesome5 style={{ marginLeft: 10 }} name="ethereum" color={'#000'} size={18} /> */}
             <Image resizeMode='contain' source={ethereum} style={{ width: 20, height: 20 }} />
           </View>
           <Text style={{ fontSize: 16, color: '#eee', fontWeight: '500' }}>{Math.round(balance*currency*100)/100} USD</Text>

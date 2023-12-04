@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, ScrollView, TouchableOpacity, Modal, ActivityIndicator, Image, Linking } from 'react-native';
+import {GOERLI_URL} from "react-native-dotenv"
 
 import MetaMaskSDK from '@metamask/sdk';
 import BackgroundTimer from 'react-native-background-timer';
@@ -21,12 +22,10 @@ const trash = require('../assets/trash.png')
 function useInterval(callback, delay) {
   const savedCallback = React.useRef();
 
-  // Remember the latest callback.
   React.useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
 
-  // Set up the interval.
   React.useEffect(() => {
     function tick() {
       savedCallback.current();
@@ -76,7 +75,7 @@ const NewBetScreen = () => {
     const getBalance = async () => {
 
       const provider = new ethers.JsonRpcProvider(
-        'https://eth-goerli.g.alchemy.com/v2/fimlv4n0QGOOIbJKbIqTz6y-Pa4wIgIt',
+        GOERLI_URL,
       );
 
       console.log({ provider });
@@ -232,8 +231,6 @@ const NewBetScreen = () => {
       await tx.wait()
       closeModal()
     }, 10000);
-
-    // setModal(true)
   }
 
   const closeModal = () => {
