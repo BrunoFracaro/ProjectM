@@ -227,8 +227,11 @@ const NewBetScreen = () => {
 
       const value = 0.0011 * bets.length
       const valueSTR = ethers.parseEther(value.toString())
+      console.log({contract})
       const tx = await contract.enterLottery(formatbets, { value: valueSTR })
-      await tx.wait()
+      console.log({tx})
+      const receipt = await tx.wait()
+      console.log({receipt})
       closeModal()
     }, 10000);
   }
@@ -271,7 +274,7 @@ const NewBetScreen = () => {
                 <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 40, textAlign: 'center' }}>You will be redirected to approve the transaction</Text>
               </>
             ) : (
-              <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Connect your wallet with MetaMask</Text>
+              <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Connect to your MetaMask wallet</Text>
             )}
           </TouchableOpacity>
         </View>
