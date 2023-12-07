@@ -1,17 +1,11 @@
 import React from 'react';
-import { Text, View, ScrollView, Image, TouchableOpacity, Linking, ActivityIndicator } from 'react-native';
+import { Text, View, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 
-import MetaMaskSDK from '@metamask/sdk';
-import BackgroundTimer from 'react-native-background-timer';
+import singletonSDKInstance from '../web3/mmsdk';
 
 import MetamaskContext from '../context/metamask';
 
-import '@ethersproject/shims';
-import { ethers } from 'ethers';
-
 import { myPallete } from '../components/colorPallete';
-
-const abi = require('../contract/Lottery.json')
 
 const meta = require('../assets/Metamask-icon.png')
 
@@ -31,47 +25,17 @@ const ProfileScreen = () => {
 
     setLoading(true)
 
-    console.log('restart');
-    const MMSDK = new MetaMaskSDK({
-      openDeeplink: link => {
-        Linking.openURL(link); // Use React Native Linking method or another way of opening deeplinks.
-      },
-      timer: BackgroundTimer, // To keep the dapp alive once it goes to background.
-      dappMetadata: {
-        name: 'My dapp', // The name of your dapp.
-        url: 'https://mydapp.com', // The URL of your website.
-      },
-    });
+    const accounts = await singletonSDKInstance.getUser()
 
-    await MMSDK.init();
+    const balance = await singletonSDKInstance.getBalance()
 
-    const ethereum = MMSDK.getProvider();
+    const check = await singletonSDKInstance.totalInContract()
 
-    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-
-    const provider = new ethers.BrowserProvider(ethereum);
-
-    const balance = await provider.getBalance(
-      ethereum.selectedAddress
-    );
-
-    const signer = await provider.getSigner();
-    console.log({signer})
-
-    const contract = new ethers.Contract("0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a", abi.abi, signer)
-    console.log({contract})
-
-    const lastTimeStamp = await contract.totalInContract()
-    console.log({lastTimeStamp})
-
-    const balanceInETH = ethers.formatEther(balance);
+    console.log({check})
 
     const newContext = {
-      eth: ethereum,
       address: accounts[0],
-      provider: provider,
-      balance: balanceInETH,
-      contract: contract
+      balance: balance,
     }
 
     setMetamaskCxt(newContext);

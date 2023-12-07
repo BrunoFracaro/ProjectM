@@ -59,7 +59,7 @@ export default () => {
               ),
             }}
           />
-          {/* <Tabs.Screen
+          <Tabs.Screen
             name="Profile"
             component={ProfileScreen}
             options={{
@@ -71,7 +71,7 @@ export default () => {
                 />
               ),
             }}
-          /> */}
+          />
         </Tabs.Navigator>
       </MetamaskContext.Provider>
     </NavigationContainer>
