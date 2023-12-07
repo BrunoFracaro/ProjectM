@@ -194,13 +194,7 @@ const NewBetScreen = () => {
         setModal0(false)
         setModal(true)
   
-        const value = 0.0011 * bets.length
-  
-        const result = await singletonSDKInstance.enterLottery(formatbets, value)
-  
-        console.log({result})
-      
-        closeModal()
+        sendTransaction()
       }, 5000);
     }else{
       setModal0(true)
@@ -226,14 +220,19 @@ const NewBetScreen = () => {
       setModal0(false)
       setModal(true)
 
-      const value = 0.0011 * bets.length
-
-      const result = await singletonSDKInstance.enterLottery(formatbets, value)
-
-      console.log({result})
-    
-      closeModal()
+      sendTransaction()
     }, 10000);
+  }
+
+  const sendTransaction = async() => {
+    const value = 0.0011 * bets.length
+
+    const result = await singletonSDKInstance.enterLottery(formatbets, value)
+
+    console.log({result})
+
+    closeModal()
+
   }
 
   const closeModal = () => {
@@ -253,6 +252,9 @@ const NewBetScreen = () => {
               <>
                 <ActivityIndicator size="large" color="#000000" />
                 <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20 }}>Waiting for approval</Text>
+                <TouchableOpacity style={{padding: 14, borderRadius: 10, borderWidth: 1, borderColor: myPallete.mainOrange, marginTop: 20, alignItems: 'center', justifyContent: 'center'}} onPress={() => sendTransaction()}>
+                  <Text style={{ fontSize: 20, color: myPallete.mainOrange, fontWeight: '500' }}>Resend transaction</Text>
+                </TouchableOpacity>
               </>
             ) : (
               <>
@@ -357,7 +359,7 @@ const NewBetScreen = () => {
         )}
       </View>
       <View style={{ flexDirection: 'row', marginTop: 14, alignSelf: 'center', width: '95%', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>Total cost eth: 0.00{bets.length * 2} eth</Text>
+        <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>Total cost eth: 0.00{bets.length * 11} eth</Text>
         {bets.length > 0 ? (
           <TouchableOpacity onPress={() => startPay()} style={{ width: 120, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: myPallete.mainGreen, marginLeft: 10 }}>
             <Text style={{ fontSize: 20, color: '#fff', fontWeight: '500' }}>Place Bets</Text>
