@@ -25,14 +25,13 @@ const ProfileScreen = () => {
 
     setLoading(true)
 
-    console.log('restart');
-
     const accounts = await singletonSDKInstance.getUser()
-    console.log({accounts})
 
     const balance = await singletonSDKInstance.getBalance()
-    console.log({balance})
 
+    const check = await singletonSDKInstance.totalInContract()
+
+    console.log({check})
 
     const newContext = {
       address: accounts[0],

@@ -2,15 +2,12 @@ import React from 'react';
 import { Text, View, ScrollView, TouchableOpacity, Modal, ActivityIndicator, Image, Linking } from 'react-native';
 import {GOERLI_URL} from "react-native-dotenv"
 
-import MetaMaskSDK from '@metamask/sdk';
-import BackgroundTimer from 'react-native-background-timer';
-
 import '@ethersproject/shims';
 import { ethers } from 'ethers';
 
-import MetamaskContext from '../context/metamask';
+import singletonSDKInstance from '../web3/mmsdk';
 
-const abi = require('../contract/Lottery.json')
+import MetamaskContext from '../context/metamask';
 
 const meta = require('../assets/Metamask-icon.png')
 
@@ -53,9 +50,6 @@ const NewBetScreen = () => {
   const [modal0, setModal0] = React.useState(false)
 
   const [connected, setConnected] = React.useState(false)
-  const [address, setAddress] = React.useState('')
-  const [userbalance, setUserBalance] = React.useState('')
-
 
   const [render, setRender] = React.useState(false)
   const [open, setOpen] = React.useState(true)
@@ -75,7 +69,7 @@ const NewBetScreen = () => {
     const getBalance = async () => {
 
       const provider = new ethers.JsonRpcProvider(
-        'https://eth-goerli.g.alchemy.com/v2/fimlv4n0QGOOIbJKbIqTz6y-Pa4wIgIt',
+        GOERLI_URL,
       );
 
       console.log({ provider });
@@ -192,46 +186,52 @@ const NewBetScreen = () => {
     setRender(!render)
   }
 
+  const startPay = async() => {
+    if (metamaskCxt.address != undefined){
+      setConnected(true)
+      setModal0(true)
+      setTimeout(async () => {
+        setModal0(false)
+        setModal(true)
+  
+        const value = 0.0011 * bets.length
+  
+        const result = await singletonSDKInstance.enterLottery(formatbets, value)
+  
+        console.log({result})
+      
+        closeModal()
+      }, 5000);
+    }else{
+      setModal0(true)
+    }
+  }
+
   const connect = async () => {
 
-    const MMSDK = new MetaMaskSDK({
-      openDeeplink: link => {
-        Linking.openURL(link);
-      },
-      timer: BackgroundTimer,
-      dappMetadata: {
-        name: 'My dapp',
-        url: 'https://mydapp.com',
-      },
-    });
+    const accounts = await singletonSDKInstance.getUser()
 
-    await MMSDK.init();
-    const ethereum = MMSDK.getProvider();
-    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    setAddress(accounts[0])
-    const provider = new ethers.BrowserProvider(ethereum);
-    const balance = await provider.getBalance(
-      ethereum.selectedAddress
-    );
-    const balanceInETH = ethers.formatEther(balance);
-    setUserBalance(balanceInETH)
+    const balance = await singletonSDKInstance.getBalance()
 
+    const newContext = {
+      address: accounts[0],
+      balance: balance,
+    }
+
+    setMetamaskCxt(newContext);
     setConnected(true)
+    setRender(!render)
 
     setTimeout(async () => {
       setModal0(false)
       setModal(true)
 
-      const signer = await provider.getSigner();
-      const contract = new ethers.Contract("0x9b0164272ca6744eb66d8508191Ff6fAA8475b1a", abi.abi, signer)
-
       const value = 0.0011 * bets.length
-      const valueSTR = ethers.parseEther(value.toString())
-      console.log({contract})
-      const tx = await contract.enterLottery(formatbets, { value: valueSTR })
-      console.log({tx})
-      const receipt = await tx.wait()
-      console.log({receipt})
+
+      const result = await singletonSDKInstance.enterLottery(formatbets, value)
+
+      console.log({result})
+    
       closeModal()
     }, 10000);
   }
@@ -269,8 +269,8 @@ const NewBetScreen = () => {
             <Image resizeMode='contain' source={meta} style={{ width: 80, height: 80, borderRadius: 50 }} />
             {connected ? (
               <>
-                <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Address: {address}</Text>
-                <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Balance: {userbalance}</Text>
+                <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Address: {metamaskCxt.address}</Text>
+                <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 20, textAlign: 'center' }}>Balance: {metamaskCxt.balance}</Text>
                 <Text style={{ fontSize: 20, color: '#000', fontWeight: '500', marginTop: 40, textAlign: 'center' }}>You will be redirected to approve the transaction</Text>
               </>
             ) : (
@@ -359,7 +359,7 @@ const NewBetScreen = () => {
       <View style={{ flexDirection: 'row', marginTop: 14, alignSelf: 'center', width: '95%', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Text style={{ fontSize: 20, color: '#aaa', fontWeight: '500' }}>Total cost eth: 0.00{bets.length * 2} eth</Text>
         {bets.length > 0 ? (
-          <TouchableOpacity onPress={() => setModal0(true)} style={{ width: 120, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: myPallete.mainGreen, marginLeft: 10 }}>
+          <TouchableOpacity onPress={() => startPay()} style={{ width: 120, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: myPallete.mainGreen, marginLeft: 10 }}>
             <Text style={{ fontSize: 20, color: '#fff', fontWeight: '500' }}>Place Bets</Text>
           </TouchableOpacity>
         ) : (

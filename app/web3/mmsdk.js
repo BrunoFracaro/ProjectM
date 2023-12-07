@@ -34,7 +34,7 @@ class SingletonSDK {
         },
       });
 
-      await MMSDK.init();
+      await this.sdkInstance.init();
     }
 
     return this.sdkInstance;
@@ -96,6 +96,26 @@ class SingletonSDK {
       const contract = await this.contract()
 
       return await contract.totalInContract();
+    }
+    return null;
+  }
+
+  async enterLottery(formatbets, value) {
+    if (this.sdkInstance) {
+
+      const contract = await this.contract()
+
+      const valueSTR = ethers.parseEther(value.toString())
+
+      const tx = await contract.enterLottery(formatbets, { value: valueSTR });
+      
+      console.log({tx})
+
+      const receipt = await tx.wait()
+
+      console.log({receipt})
+
+      return receipt
     }
     return null;
   }
